@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <h2>登陆界面</h2>
+  <input type="text" placeholder="输入用户名" id="username">
+  <input type="button" value="登陆" id="login">
+</body>
+<script>  
+
+  // 监听点击事件
+  function handleLoginClick(){
+    const uValue = document.querySelector("#username");
+    const v = uValue.value.trim();
+
+    if(v.length < 6){
+      alert("用户名太短了");
+      return;
+    }
+    window.sessionStorage.setItem("username", JSON.stringify(v));
+    window.location.href = "index.html";
+  }
+
+
+  // 处理事件
+  function bindEvent(){
+    const uLogin = document.querySelector("#login");
+    uLogin.addEventListener("click", handleLoginClick);
+  }
+
+  bindEvent();
+
+</script>
+</html>

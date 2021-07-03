@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <h2>简易聊天平台</h2>
+  <ul class="ulItem">
+    <span>这里现在什么都没有哟...</span>
+  </ul>
+  <input type="text" placeholder="输入聊天内容" id="message">
+  <input type="button" value="发送信息" id="sendMessage">
+
+
+  <script>
+    const ws = new WebSocket("ws://localhost:3001");
+    const message = document.querySelector("#message");
+    let username = "";
+
+    ws.addEventListener('open', () => {
+      console.log('opening...');
+      username = JSON.parse(window.sessionStorage.getItem("username"));
+    })
+
+    ws.addEventListener('error', () => {
+      console.log('error...');
+    })
+    ws.addEventListener('close', () => {
+      console.log('close...');
+    })
+
+
+    ws.addEventListener('message', (e) => {
+      console.log(JSON.parse(e.data));
+      const {
+        username,
+        msg,
+        date
+      } = JSON.parse(e.data);
+      const ulItem = document.querySelector('.ulItem');
+      ulItem.appendChild(returnDom(username, msg, date));
+      message.value = "";
+    })
+
+    function returnDom(username, msg, date) {
+      const uLi = document.createElement('li');
+      uLi.innerHTML = `
+      <div>
+        <span>用户名: ${username} </span>
+        <span>${msg}</span>
+        <span>${new Date(date)}</span>
+      </div>
+      `
+      return uLi;
+    }
+
+    function handleSendMessage() {
+      const v = message.value.trim();
+      if (!v.length) {
+        return;
+      }
+
+      // 发送信息
+      ws.send(JSON.stringify({
+        username,
+        msg: v,
+        date: new Date().getTime(),
+      }))
+
+    }
+
+    function bindEvent() {
+      const sendBtn = document.querySelector("#sendMessage");
+      sendBtn.addEventListener("click", handleSendMessage);
+    }
+
+    bindEvent();
+  </script>
+</body>
+
+</html>

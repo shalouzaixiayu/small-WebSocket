@@ -1,0 +1,12 @@
+{
+  "name": "BACK_END",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "end": "nodemon index.js"
+  },
+  "dependencies": {
+    "ws": "^7.5.1"
+  }
+}
