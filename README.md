@@ -1,9 +1,9 @@
 ###  开始:
-  - yran install
+  - yarn install
   - /or
   - npm install
 
 ### 运行：
   - yarn 
-  - yran dev
-  - yran end
+  - yarn dev
+  - yarn end
